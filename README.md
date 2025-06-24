@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏢 Tenantrix — Multi-Tenant Blog Platform
 
-## Getting Started
+Tenantrix is a scalable multi-tenant blog application built with **Next.js**, **Clerk authentication**, and **PostgreSQL** (via Docker). It allows users to create and manage multiple blogs under different organizations — even on **custom domains**.
 
-First, run the development server:
+---
+
+## ✨ Key Features
+
+- 🔐 **Multi-Org Support**: Users can create and manage multiple organizations, each with its own blogs.
+- ✍️ **Blog Creation**: Write, update, and publish blog posts scoped to an organization.
+- 🌐 **Custom Domains**: Map custom domains to specific organizations/blogs for a personalized blogging experience.
+- ⚙️ **Secure Auth**: Clerk handles secure user management with organization context.
+- 🐳 **PostgreSQL + Docker**: All data is stored in a robust PostgreSQL database powered by Docker.
+
+---
+
+## 🧠 Tech Stack
+
+| Category      | Tools Used                               |
+|---------------|------------------------------------------|
+| Frontend      | Next.js 14, TypeScript, Tailwind CSS     |
+| Auth          | Clerk (multi-tenant organizations)       |
+| Database      | PostgreSQL (Dockerized)                  |
+| ORM           | Drizzle                                  |
+| Hosting       | Vercel (recommended)                     |
+| DNS           | Vercel / Custom Domain Mapping           |
+
+---
+
+## 📸 Screenshots
+
+> Here’s what Tenantrix looks like in action:
+
+### 🖼️ Blog Dashboard View
+
+![Blog Dashboard](./public/250624_08h47m20s_screenshot.png)
+
+### 🌐 Created Blogs Preview
+
+![Created Blogs](./public/250624_08h46m49s_screenshot.png)
+
+### 🌐 Drizzle Database Preview
+
+![Drizzle Database](./public/250624_08h48m56s_screenshot.png)
+
+---
+
+## 🚀 Getting Started
+
+### 🛠️ Prerequisites
+
+- Node.js 18+
+- Docker
+- Clerk Account
+- Vercel (or any preferred host)
+
+### 🔧 Setup Instructions
+
+1. **Clone the repository**:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/tenantrix.git
+cd tenantrix
+bun install
+docker-compose up -d
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Configure environment variables:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a .env.local file and add the following:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/tenantrix
+CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_CLERK_FRONTEND_API=
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+```
 
-## Learn More
+3. **Run migrations**:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npx prisma generate
+npx prisma migrate dev --name init
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Start the app**:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+bun dev
+Visit http://localhost:3000 to view the app.
+```
 
-## Deploy on Vercel
+### 🔗 Custom Domain Mapping
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Tenantrix supports custom domains for each organization’s blog. You can:
+- Configure DNS settings to point to the app.
+- Use dynamic routing in Next.js to handle subdomains and root domains.
+- Clerk will automatically handle auth per domain/org.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 📂 Project Structure
+```bash
+app/
+ └── (root)/
+      ├── layout.tsx
+      ├── page.tsx
+ └── (subdomain)/s/[subdomain]/
+      ├── page.tsx        # Renders organization-specific blogs
+```
+
+📜 License
+This project is open-source and available under the MIT License.
+
+🙌 Learn by Piyush Garg❣️
